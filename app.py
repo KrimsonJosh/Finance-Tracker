@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
 
 load_dotenv()
@@ -30,7 +30,7 @@ with app.app_context():
 def home():
     return "Hello world"
 
-@app.route('/signup', methods = ['GET', 'POST'])
+@app.route('/signup', methods = ['GET', 'POST']) 
 def signup():
     if request.method == 'POST':
         username = request.form['username']
@@ -41,8 +41,21 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect(url_for('home'))
+        return redirect(url_for('home')) # TODO: ADD SESSIONS
     return render_template('signup.html') 
+
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = User.query.filter_by(username=username).first()
+        if user and check_password_hash(user.password, password):
+            return redirect(url_for('home')) # TODO: ADD SESSIONS
+        else:
+            return "Invalid Username or password", 401
+    return render_template('login.html')
 
 if(__name__) == "__main__":
     app.run(debug=True)
