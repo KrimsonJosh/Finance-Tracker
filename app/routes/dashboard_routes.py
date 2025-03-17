@@ -33,7 +33,7 @@ def addExpense():
         return jsonify({'success': False, 'message': 'database error'}), 500
 
 @dashboard_bp.route('/api/expenses/<int:id>', methods = ['PUT'])
-def editExpense():
+def editExpense(id):
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({'success': False, 'message': 'Unauthorized'}), 401
@@ -63,12 +63,25 @@ def editExpense():
         return jsonify({'success': False, 'message': 'database error'}), 500
 
 @dashboard_bp.route('/api/expenses/<id>', methods = ['DELETE'])
-def deleteExpense():
-    pass 
+def deleteExpense(id):
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 401 
+    
+    expense = Expense.query.filter_by(id=id, user_id = user_id).first() 
+    if not expense:
+        return jsonify({'sucesss': False, 'message': 'Expense not found'}), 404
+    try:
+        db.session.delete(expense)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'message': 'database error'}), 500
+    
 
 @dashboard_bp.route('/api/expenses', methods = ['GET'])
 def showExpenses():
-    pass 
+    user_id = session.get('user_id')
 
 @dashboard_bp.route('/api/income', methods = ['PUT'])
 def changeIncome():
