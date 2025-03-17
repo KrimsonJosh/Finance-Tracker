@@ -19,8 +19,8 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect(url_for('auth.home'))
-    return render_template('signup.html')
+        return redirect(url_for('auth.home')) # TODO : add sessions
+    return render_template('auth_templates/signup.html')
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -30,7 +30,7 @@ def login():
 
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
-            return redirect(url_for('auth.home'))
+            return redirect(url_for('auth.home')) # TODO : add sessions
         else:
             return "Invalid Username or password", 401
-    return render_template('login.html')
+    return render_template('auth_templates/login.html')
