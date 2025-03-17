@@ -7,7 +7,11 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/')
 def home():
     return "Hello world"
-
+'''
+------------
+ROUTE: SIGNUP
+-----------
+'''
 @auth_bp.route('/signup', methods=['GET', 'POST']) 
 def signup():
     if request.method == 'POST':
@@ -23,7 +27,11 @@ def signup():
 
         return redirect(url_for('auth.home')) # TODO : add sessions
     return render_template('auth_templates/signup.html')
-
+'''
+------------
+ROUTE: LOGIN
+-----------
+'''
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

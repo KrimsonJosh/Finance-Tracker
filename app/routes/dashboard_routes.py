@@ -2,7 +2,11 @@ from flask import Blueprint, render_template, request, redirect, url_for, jsonif
 from ..models import db, Expense, Income
 
 dashboard_bp = Blueprint('dashboard', __name__)
-
+'''
+------------
+ROUTE: ADD EXPENSE
+-----------
+'''
 @dashboard_bp.route('/api/expenses', methods = ['POST'])
 def addExpense():
 
@@ -20,8 +24,6 @@ def addExpense():
     except ValueError:
         return jsonify({'success': False, 'message': 'Amount must be a number'}), 400 
     
-    
-
     new_expense = Expense(amount = amount, category = category, user_id = user_id)
 
     try:
@@ -31,7 +33,11 @@ def addExpense():
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'message': 'database error'}), 500
-
+'''
+------------
+ROUTE: EDIT EXPENSE
+-----------
+'''
 @dashboard_bp.route('/api/expenses/<int:id>', methods = ['PUT'])
 def editExpense(id):
     user_id = session.get('user_id')
@@ -60,7 +66,11 @@ def editExpense(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'message': 'database error'}), 500
-
+'''
+------------
+ROUTE: DELETE EXPENSE
+-----------
+'''
 @dashboard_bp.route('/api/expenses/<id>', methods = ['DELETE'])
 def deleteExpense(id):
     user_id = session.get('user_id')
@@ -76,8 +86,11 @@ def deleteExpense(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'message': 'database error'}), 500
-    
-
+'''
+------------
+ROUTE: GET EXPENSE
+-----------
+'''
 @dashboard_bp.route('/api/expenses', methods = ['GET'])
 def showExpenses():
     user_id = session.get('user_id')
@@ -95,7 +108,11 @@ def showExpenses():
         })
 
     return jsonify({'success': True, 'expenses': expense_list}), 200
-
+'''
+------------
+ROUTE: GET INCOME
+-----------
+'''
 @dashboard_bp.route('/api/income', methods = ['GET'])
 def getIncome():
     user_id = session.get('user_id')
@@ -108,7 +125,11 @@ def getIncome():
         return jsonify({'success': False, 'message': 'Income not found'}), 404  
 
     return jsonify({'success': True, 'income': myIncome.amount}), 200
-  
+'''
+------------
+ROUTE: EDIT INCOME
+-----------
+'''
 @dashboard_bp.route('/api/income', methods = ['PUT'])
 def changeIncome():
     user_id = session.get('user_id')
@@ -134,9 +155,3 @@ def changeIncome():
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'message': 'database error occurred'}), 500
-    
-    
-    
-
-
-
