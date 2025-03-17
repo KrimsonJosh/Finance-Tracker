@@ -12,7 +12,9 @@ def create_app():
 
     with app.app_context():
         from .routes.auth_routes import auth_bp
+        from .routes.dashboard_routes import dashboard_bp
         app.register_blueprint(auth_bp)
+        app.register_blueprint(dashboard_bp)
 
         db.create_all()
 
