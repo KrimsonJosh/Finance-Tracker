@@ -1,13 +1,17 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session
 from ..models import db, Expense, Income
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
 @dashboard_bp.route('/api/expenses', methods = ['POST'])
 def addExpense():
+
+    user_id = session.get('user_id') 
+    if not user_id:
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 401
+    
     amount = request.form.get('amount')
     category = request.form.get('category')
-
     if not amount or not category:
         return jsonify({'success': False, 'message': "Amount and category required"}), 400
     
@@ -16,7 +20,7 @@ def addExpense():
     except ValueError:
         return jsonify({'success': False, 'message': 'Amount must be a number'}), 400 
     
-    user_id = 1 # TODO: replace with session ID later
+    
 
     new_expense = Expense(amount = amount, category = category, user_id = user_id)
 
@@ -30,6 +34,9 @@ def addExpense():
 
 @dashboard_bp.route('/api/expenses/<int:id>', methods = ['PUT'])
 def editExpense():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 401
     amount = request.form.get('amount')
     category = request.form.get('category')
 
@@ -41,7 +48,7 @@ def editExpense():
     except ValueError:
         return jsonify({'success': False, 'message': 'Amount must be a number'}), 400
     try:
-        user_id = 1 # TODO: replace with session id latter
+        user_id = session.get('user_id')
         expense = Expense.query.filter_by(id=id, user_id = user_id).first()
         if not expense:
             return jsonify({'success': False, 'message': 'Expense not found'}), 404 
