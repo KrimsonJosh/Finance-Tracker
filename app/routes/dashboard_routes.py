@@ -83,6 +83,7 @@ def deleteExpense(id):
     try:
         db.session.delete(expense)
         db.session.commit()
+        return jsonify({'success': True, 'message': 'Expense deleted successfully'}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'message': 'database error'}), 500
