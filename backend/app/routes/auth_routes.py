@@ -12,39 +12,42 @@ def home():
 ROUTE: SIGNUP
 -----------
 '''
-@auth_bp.route('/signup', methods=['GET', 'POST']) 
+@auth_bp.route('/signup', methods=['POST']) 
 def signup():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        hashed_password = generate_password_hash(password)
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
+    hashed_password = generate_password_hash(password)
 
-        new_user = User(username=username, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
+    if User.query.filter_by(username=username).first():
+        return jsonify({"message": "error, username already taken"}), 409
+    
+    new_user = User(username=username, password=hashed_password)
+    db.session.add(new_user)
+    db.session.commit()
 
-        session['user_id'] = new_user.id
+    session['user_id'] = new_user.id
 
-        return redirect(url_for('auth.home')) # TODO : add sessions
-    return render_template('auth_templates/signup.html')
+    return jsonify({"message" : "signup successful"}), 201
 '''
 ------------
 ROUTE: LOGIN
 -----------
 '''
-@auth_bp.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    data = request.get_json()
 
-        user = User.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            return redirect(url_for('auth.home')) # TODO : add sessions
-        else:
-            return "Invalid Username or password", 401 
-    return render_template('auth_templates/login.html')
+    username = data['username']
+    password = data['password']
+
+    user = User.query.filter_by(username=username).first()
+    if user and check_password_hash(user.password, password):
+        session['user_id'] = user.id
+        return jsonify({"message": "Login succesful"}), 200
+    else:
+        return jsonify({"error": "invalid credential"}), 401
+   
 
 @auth_bp.route('/logout', methods = ['GET'])
 def logout():
