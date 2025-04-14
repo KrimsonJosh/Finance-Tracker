@@ -9,10 +9,12 @@ function App() {
     <Router>
       <div className = "bg-gray-100 min-h-screen">
         <Routes>
-          {/* Navigate to dashboard if logged in, else enter login page*/}
-          <Route path = "/" element={isLoggedIn ? <Navigate to ="/dashboard"/> : <Login />} />
+          <Route path = "/" element = {<Navigate to= "/signup" />} />
+          <Route path = "/login" element = {<Login/>} />
           <Route path = "/signup" element = {<Signup />} />
-          <Route path = "/dashboard" element = {isLoggedIn ? <Dashboard /> : <Navigate to = "/" />} /> 
+          <Route 
+            path = "/dashboard" 
+            element = {isLoggedIn ? <Dashboard /> : <Navigate to = "/login" />} /> 
         </Routes>
       </div>
     </Router>

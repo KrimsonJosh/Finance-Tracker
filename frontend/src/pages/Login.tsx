@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
@@ -12,6 +14,7 @@ const Login = () => {
                 password,
             });
             alert(res.data.message);
+            navigate('/dashboard');
         } catch (err: any) {
             alert(err.response?.data?.error || 'Login failed');
         }
