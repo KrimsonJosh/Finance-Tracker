@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session
+from flask import Blueprint, request, jsonify, session
 from ..models import db, Expense, Income
 
 dashboard_bp = Blueprint('dashboard', __name__)
@@ -9,13 +9,15 @@ ROUTE: ADD EXPENSE
 '''
 @dashboard_bp.route('/api/expenses', methods = ['POST'])
 def addExpense():
-
+    data = request.get_json()
     user_id = session.get('user_id') 
+
     if not user_id:
         return jsonify({'success': False, 'message': 'Unauthorized'}), 401
     
-    amount = request.form.get('amount')
-    category = request.form.get('category')
+    amount = data['amount']
+    category = data['category']
+
     if not amount or not category:
         return jsonify({'success': False, 'message': "Amount and category required"}), 400
     
@@ -40,11 +42,12 @@ ROUTE: EDIT EXPENSE
 '''
 @dashboard_bp.route('/api/expenses/<int:id>', methods = ['PUT'])
 def editExpense(id):
+    data = request.get_json()
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({'success': False, 'message': 'Unauthorized'}), 401
-    amount = request.form.get('amount')
-    category = request.form.get('category')
+    amount = data['amount']
+    category = data['category']
 
     if not amount or not category:
         return jsonify({'success': False, 'message': 'Amount and category required'}), 400
