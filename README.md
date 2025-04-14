@@ -1,0 +1,73 @@
+# 💸 Finance Tracker
+
+A full-stack personal finance tracker built with:
+
+- **React + TypeScript** for a responsive and modern frontend
+- **Flask (Python)** backend for REST APIs and business logic
+- **TODO: Firebase (coming soon)** for authentication and user data storage
+
+---
+
+##  Features
+
+-  Add/view spending categories and amounts
+-  Responsive dashboard UI (React + Vite + Tailwind CSS)
+-  Modular Flask backend with route separation and test cases
+-  Unit tests for core backend features
+-  Firebase integration (auth + data persistence)
+-  UI/UX improvements (charts, animations, feedback)
+
+---
+## Setup Backend
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python run.py
+```
+---
+## Setup Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+---
+## 📁 Project Structure
+```bash
+.
+├── backend
+│   ├── app
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   └── routes
+│   ├── config.py
+│   ├── run.py
+│   └── tests
+│       ├── test_auth.py
+│       └── test_dashboard.py
+├── frontend
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── public
+│   │   └── vite.svg
+│   ├── README.md
+│   ├── src
+│   │   ├── api.tsx
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── assets
+│   │   ├── components
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   ├── pages
+│   │   └── vite-env.d.ts
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
+└── project_tree.txt
+
+```
