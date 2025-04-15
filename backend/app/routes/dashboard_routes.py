@@ -97,6 +97,7 @@ ROUTE: GET EXPENSE
 '''
 @dashboard_bp.route('/api/expenses', methods = ['GET'])
 def showExpenses():
+    print("SESSION:", session)
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({'success': False, 'message': 'Unauthorized'}), 401

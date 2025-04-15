@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import FinancePieChart from '../components//FinancePIeChart'
 
@@ -10,13 +11,23 @@ type Expense = {
 
 const Dashboard = () => {
     const [expenses, setExpenses] = useState<Expense[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const navigate = useNavigate(); 
 
     const loadExpenses = async () => {
-        try{
+        try {
             const res = await api.get('/api/expenses');
             setExpenses(res.data.expenses);
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
+            if (err.response?.status === 401) {
+                navigate('/login');
+            } else {
+                setError('Failed to load expenses');
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -24,6 +35,8 @@ const Dashboard = () => {
     loadExpenses();
   }, []);
   
+  if (loading) return <p className="p-4">Loading...</p> {/*TODO: UI for loading */}
+  if (error) return <p className="p-4 text-red-500">{error}</p>{/**TODO better ui */}
   return (
     <div className = "p-4 max-w-2xl mx-auto">
         <h2 className = "text-xl font-bold mb-4"> My Expenses</h2>

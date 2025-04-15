@@ -8,7 +8,17 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    CORS(app, supports_credentials = True) # TODO: change localhost later
+    
+    # Configure CORS with proper settings for credentials
+    CORS(
+        app,
+        supports_credentials=True,
+        origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
+        expose_headers=["Content-Type", "Authorization"],
+        max_age=3600
+    )
 
     db.init_app(app)
 
