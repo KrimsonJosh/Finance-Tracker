@@ -14,8 +14,14 @@ A full-stack personal finance tracker built with:
 -  Responsive dashboard UI (React + Vite + Tailwind CSS)
 -  Modular Flask backend with route separation and test cases
 -  Unit tests for core backend features
--  Firebase integration (auth + data persistence)
--  UI/UX improvements (charts, animations, feedback)
+---
+
+## TODOES
+
+- Switch to redis filesystem for prod
+- Better UI/UX in general
+- Integrate Plaid API for bank account
+- Integrate Alpha Vantage for portfolio tracking
 
 ---
 ## Setup Backend
