@@ -4,7 +4,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 
 function App() {
-  const isLoggedIn = !!document.cookie.includes('session');
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   return (
     <Router>
       <div className = "bg-gray-100 min-h-screen">

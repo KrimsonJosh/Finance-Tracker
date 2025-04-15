@@ -36,7 +36,7 @@ const Signup = () => {
             <button
                 onClick = {handleSignup}
                 className = "bg-blue-500 text-white px-4 py-2 rounded"
-            ></button>
+            >Signup</button>
         </div>
     );
 };

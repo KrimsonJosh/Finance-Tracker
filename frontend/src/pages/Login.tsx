@@ -13,8 +13,9 @@ const Login = () => {
                 username, 
                 password,
             });
-            alert(res.data.message);
+            localStorage.setItem('isLoggedIn', 'true');
             navigate('/dashboard');
+            alert(res.data.message);
         } catch (err: any) {
             alert(err.response?.data?.error || 'Login failed');
         }
