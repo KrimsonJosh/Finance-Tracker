@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
+from flask import Blueprint, request, redirect, url_for, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..models import db, User
 
@@ -44,7 +44,7 @@ def login():
     user = User.query.filter_by(username=username).first()
     if user and check_password_hash(user.password, password):
         session['user_id'] = user.id
-        return jsonify({"message": "Login succesful"}), 200
+        return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"error": "invalid credential"}), 401
    

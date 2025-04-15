@@ -7,8 +7,8 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    CORS(app, supports_credentials = True)
     app.config.from_object(Config)
+    CORS(app, supports_credentials = True) # TODO: change localhost later
 
     db.init_app(app)
 
