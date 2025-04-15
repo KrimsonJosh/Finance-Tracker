@@ -4,7 +4,6 @@ A full-stack personal finance tracker built with:
 
 - **React + TypeScript** for a responsive and modern frontend
 - **Flask (Python)** backend for REST APIs and business logic
-- **TODO: Firebase (coming soon)** for authentication and user data storage
 
 ---
 
