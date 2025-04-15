@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
+from flask_session import Session
 
 db = SQLAlchemy()
 
@@ -19,6 +20,11 @@ def create_app():
         expose_headers=["Content-Type", "Authorization"],
         max_age=3600
     )
+    app.config["SESSION_TYPE"] = "filesystem" # TODO: switch to redis for prod
+    app.config["SESSION_PERMANENT"] = False  
+    app.config["SESSION_USE_SIGNER"] = True    
+
+    Session(app) 
 
     db.init_app(app)
 
