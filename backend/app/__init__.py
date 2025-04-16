@@ -21,8 +21,7 @@ def create_app():
         max_age=3600
     )
     app.config["SESSION_TYPE"] = "filesystem" # TODO: switch to redis for prod
-    app.config["SESSION_PERMANENT"] = False  
-    app.config["SESSION_USE_SIGNER"] = True    
+    app.config["SESSION_PERMANENT"] = False   
 
     Session(app) 
 
