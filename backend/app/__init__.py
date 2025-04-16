@@ -6,10 +6,14 @@ from flask_session import Session
 
 db = SQLAlchemy()
 
-def create_app():
+def create_app(test_config = None):
     app = Flask(__name__)
     app.config.from_object(Config)
-    
+    if test_config is not None:
+        app.config.update(test_config)
+    else:
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///dev.db')
+
     # Configure CORS with proper settings for credentials
     CORS(
         app,

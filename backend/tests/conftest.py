@@ -8,10 +8,12 @@ from app import create_app, db
 
 @pytest.fixture 
 def app():
-    app = create_app()
-    app.config['TESTING'] = True 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory'
-    app.config['SECRET_KEY'] = 'test_secret'
+    app = create_app({
+        'TESTING': True,
+        'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
+        'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+        'SECRET_KEY': 'test',
+    })
     with app.app_context():
         db.create_all()
         yield app
