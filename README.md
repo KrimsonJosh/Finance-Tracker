@@ -12,7 +12,7 @@ A full-stack personal finance tracker built with:
 -  Add/view spending categories and amounts
 -  Responsive dashboard UI (React + Vite + Tailwind CSS)
 -  Modular Flask backend with route separation and test cases
--  Unit tests for core backend features
+-  Unit tests for core backend features with pytest
 ---
 
 ## TODOES
@@ -75,4 +75,13 @@ npm run dev
 │   └── vite.config.ts
 └── project_tree.txt
 
+```
+---
+## Testing Locally
+```bash
+cd FinanceTracker/backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pytest tests -v
 ```
