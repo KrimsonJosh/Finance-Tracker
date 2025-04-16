@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await api.get('/api/expenses');
+        await api.get('/api/expenses');
         setIsLoggedIn(true);
       } catch (error) {
         setIsLoggedIn(false);
@@ -35,8 +35,12 @@ function App() {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route 
             path="/login" 
-            element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />} 
-          />
+            element={
+              isLoggedIn 
+              ? <Navigate to="/dashboard" /> 
+              : <Login onLoginSuccess={() => setIsLoggedIn(true)} />
+                } 
+            />
           <Route 
             path="/signup" 
             element={isLoggedIn ? <Navigate to="/dashboard" /> : <Signup />} 

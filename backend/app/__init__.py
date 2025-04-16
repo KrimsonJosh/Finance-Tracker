@@ -3,22 +3,23 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
 from flask_session import Session
+import os
 
 db = SQLAlchemy()
 
 def create_app(test_config = None):
     app = Flask(__name__)
     app.config.from_object(Config)
-    if test_config is not None:
+    
+    # Switch to pytest config if available
+    if test_config:
         app.config.update(test_config)
-    else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///dev.db')
 
     # Configure CORS with proper settings for credentials
     CORS(
         app,
         supports_credentials=True,
-        origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+        origins="*",
         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
         expose_headers=["Content-Type", "Authorization"],
@@ -38,5 +39,6 @@ def create_app(test_config = None):
         app.register_blueprint(dashboard_bp)
 
         db.create_all()
+    print("DATABASE URI:", app.config["SQLALCHEMY_DATABASE_URI"])
 
     return app

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import AuthSwitch from '../components/AuthSwitch';
 
-const Login = () => {
+const Login = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -13,10 +13,11 @@ const Login = () => {
         e.preventDefault();
         setError('');
         try {
-            const res = await api.post('/login', {
+            await api.post('/login', {
                 username, 
                 password,
             });
+            onLoginSuccess();
             navigate('/dashboard');
         } catch (err: any) {
             setError(err.response?.data?.error || 'Login failed');
